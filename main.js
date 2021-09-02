@@ -10,7 +10,7 @@ searchButton.addEventListener('click', function () {
     }
     searchField.value = '';
 
-    const url = ` http://openlibrary.org/search.json?q=${searchText}`
+    const url = ` https://openlibrary.org/search.json?q=${searchText}`
     fetch(url)
         .then(res => res.json())
         .then(data => displayBooks(data));
@@ -22,21 +22,26 @@ const displayBooks = (data) => {
         noResult.innerText = 'no result found'
     }
     const books = data.docs;
-    console.log(books);
+    //clear DOM
     const totalData = document.getElementById('total-data');
     totalData.textContent = '';
     const booksDiv = document.getElementById('books-div');
     booksDiv.textContent = '';
     error.innerText = '';
-
+    //forEach function
     books.forEach(book => {
-
+        //book cover
         const booksCover = (book) => {
             if (book) {
-                console.log(book);
                 return book;
             }
+            else {
+                return 'no image found'
+            }
         }
+
+        const cover = booksCover(book.cover_i)
+        //author name
         const authorName = (name) => {
             let arrayName = name;
             if (name) {
@@ -48,28 +53,39 @@ const displayBooks = (data) => {
             return arrayName;
         }
         const author2 = authorName(book.author_name);
-        console.log(author2)
-
+        //first publish year
         const firstPublishYear = (year) => {
             if (year) {
-                console.log(year);
                 return year;
             }
             else {
-                return 'no first publisher found';
+                return 'N/A';
             }
         }
+        //publisher
+        const bookPublisher = (publisher) => {
+            if (publisher) {
+                console.log(publisher)
+                return publisher[0].slice(0, 30);
+            }
+            else {
+                return 'N/A'
+            }
+        }
+        const published = bookPublisher(book.publisher);
         const firstPublish = firstPublishYear(book.first_publish_year);
-        totalData.innerText = `total seach results ${dataFound}`;
+        totalData.innerText = `Total seach results ${dataFound}`;
+        //create div element and add element dynamically
         const div = document.createElement('div');
         div.classList.add('col');
         div.innerHTML = `
         <div class="card">
-                <img width='100px' height='300px' src=" https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" class="card-img-top" alt="...">
+                <img width='100px' height='300px' src=" https://covers.openlibrary.org/b/id/${cover}-M.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Book Name: ${book.title}</h5>
-                    <p class="card-text">Author: ${author2}</p>
-                    <p class="card-text">First Publish Year: ${firstPublish}</p>
+                    <p class="card-text"><span class="text-primary">Author:</span> ${author2}</p>
+                    <p class="card-text"><span class="text-primary">First Publish Year: </span>${firstPublish}</p>
+                    <p class="card-text"><span class="text-primary">Publisher:</span> ${published}</p>
                     
                 </div>
             </div>
