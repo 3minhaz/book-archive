@@ -12,25 +12,19 @@
 </head>
 
 <body class="container">
-    <h1 class="text-center mb-4">lets Search books</h1>
+    <h1 class="text-center mb-4">Search books</h1>
     <div class="input-group mb-3 w-50 mx-auto">
         <input id="search-text" type="text" class="form-control rounded me-1" placeholder="enter your book name"
             aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button id="search-button" class="btn btn-outline-secondary rounded" type="button"
-            id="button-addon2">Search</button>
+        <button id="search-button" class="btn btn-outline-secondary rounded" type="button">Search</button>
     </div>
+    <!-- show total data -->
+    <p id="error" class="text-danger text-center"></p>
+    <h5 id="no-result" class="text-primary text-center"></h5>
+    <h3 id="total-data" class="mb-3 text-center text-success"></h3>
+
     <!-- card title -->
-    <div id="books-div" class="row row-cols-1 row-cols-md-2 g-4">
-        <!-- <div class="col">
-            <div class="card">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-                        additional content. This content is a little bit longer.</p>
-                </div>
-            </div>
-        </div> -->
+    <div id="books-div" class="row row-cols-1 row-cols-md-3 g-4">
     </div>
     <script src="main.js"></script>
 </body>
