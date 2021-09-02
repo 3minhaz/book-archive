@@ -13,6 +13,7 @@ searchButton.addEventListener('click', function () {
     toggleSpinner('block')
     if (searchText === '') {
         error.innerText = 'search field cannot be empty';
+        toggleSpinner('none');
         return;
     }
     searchField.value = '';
