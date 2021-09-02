@@ -16,8 +16,9 @@ searchButton.addEventListener('click', function () {
         .then(data => displayBooks(data));
 })
 const displayBooks = (data) => {
+    console.log(data)
     noResult.innerText = '';
-    const dataFound = data.docs.length;
+    const dataFound = data.numFound;
     if (dataFound === 0) {
         noResult.innerText = 'no result found'
     }
