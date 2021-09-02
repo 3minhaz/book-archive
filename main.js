@@ -1,6 +1,7 @@
 const searchField = document.getElementById('search-text');
 const searchButton = document.getElementById('search-button');
 const error = document.getElementById('error');
+const totalData = document.getElementById('total-data');
 const noResult = document.getElementById('no-result');
 searchButton.addEventListener('click', function () {
     const searchText = searchField.value;
@@ -16,7 +17,7 @@ searchButton.addEventListener('click', function () {
         .then(data => displayBooks(data));
 })
 const displayBooks = (data) => {
-    console.log(data)
+    // console.log(data)
     noResult.innerText = '';
     const dataFound = data.numFound;
     if (dataFound === 0) {
@@ -24,7 +25,6 @@ const displayBooks = (data) => {
     }
     const books = data.docs;
     //clear DOM
-    const totalData = document.getElementById('total-data');
     totalData.textContent = '';
     const booksDiv = document.getElementById('books-div');
     booksDiv.textContent = '';
@@ -32,16 +32,18 @@ const displayBooks = (data) => {
     //forEach function
     books.forEach(book => {
         //book cover
-        const booksCover = (book) => {
-            if (book) {
-                return book;
-            }
-            else {
-                return 'no image found'
-            }
-        }
+        const booksCover = (book, book2, noImage) => {
 
-        const cover = booksCover(book.cover_i)
+            if (book !== undefined) {
+                console.log(book)
+                return book2;
+            }
+            else (noImage)
+            return noImage;
+        }
+        const imgUrl = `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
+        const noImage = `https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg`
+        const cover = booksCover(book.cover_i, imgUrl, noImage);
         //author name
         const authorName = (name) => {
             let arrayName = name;
@@ -66,13 +68,13 @@ const displayBooks = (data) => {
         //publisher
         const bookPublisher = (publisher) => {
             if (publisher) {
-                console.log(publisher)
                 return publisher[0].slice(0, 30);
             }
             else {
                 return 'N/A'
             }
         }
+
         const published = bookPublisher(book.publisher);
         const firstPublish = firstPublishYear(book.first_publish_year);
         totalData.innerText = `Total seach results ${dataFound}`;
@@ -81,7 +83,7 @@ const displayBooks = (data) => {
         div.classList.add('col');
         div.innerHTML = `
         <div class="card">
-                <img width='100px' height='300px' src=" https://covers.openlibrary.org/b/id/${cover}-M.jpg" class="card-img-top" alt="...">
+                <img width='100px' height='300px' src="${cover}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Book Name: ${book.title}</h5>
                     <p class="card-text"><span class="text-primary">Author:</span> ${author2}</p>
