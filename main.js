@@ -3,8 +3,14 @@ const searchButton = document.getElementById('search-button');
 const error = document.getElementById('error');
 const totalData = document.getElementById('total-data');
 const noResult = document.getElementById('no-result');
+
+//spinner function
+const toggleSpinner = displayStyle => {
+    document.getElementById('spinner').style.display = displayStyle;
+}
 searchButton.addEventListener('click', function () {
     const searchText = searchField.value;
+    toggleSpinner('block')
     if (searchText === '') {
         error.innerText = 'search field cannot be empty';
         return;
@@ -17,6 +23,7 @@ searchButton.addEventListener('click', function () {
         .then(data => displayBooks(data));
 })
 const displayBooks = (data) => {
+
     // console.log(data)
     noResult.innerText = '';
     const dataFound = data.numFound;
@@ -24,13 +31,16 @@ const displayBooks = (data) => {
         noResult.innerText = 'no result found'
     }
     const books = data.docs;
+
     //clear DOM
     totalData.textContent = '';
     const booksDiv = document.getElementById('books-div');
     booksDiv.textContent = '';
     error.innerText = '';
+
     //forEach function
     books.forEach(book => {
+
         //book cover
         const booksCover = (book, book2, noImage) => {
 
@@ -44,6 +54,7 @@ const displayBooks = (data) => {
         const imgUrl = `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
         const noImage = `https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg`
         const cover = booksCover(book.cover_i, imgUrl, noImage);
+
         //author name
         const authorName = (name) => {
             let arrayName = name;
@@ -56,6 +67,7 @@ const displayBooks = (data) => {
             return arrayName;
         }
         const author2 = authorName(book.author_name);
+
         //first publish year
         const firstPublishYear = (year) => {
             if (year) {
@@ -65,6 +77,7 @@ const displayBooks = (data) => {
                 return 'N/A';
             }
         }
+
         //publisher
         const bookPublisher = (publisher) => {
             if (publisher) {
@@ -78,6 +91,7 @@ const displayBooks = (data) => {
         const published = bookPublisher(book.publisher);
         const firstPublish = firstPublishYear(book.first_publish_year);
         totalData.innerText = `Total seach results ${dataFound}`;
+
         //create div element and add element dynamically
         const div = document.createElement('div');
         div.classList.add('col');
@@ -95,4 +109,5 @@ const displayBooks = (data) => {
         `
         booksDiv.appendChild(div);
     })
+    toggleSpinner('none')
 }
